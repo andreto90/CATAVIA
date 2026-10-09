@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CATAVIA | Descubre el Mundo del Café · Colombia, Costa Rica, Panamá, Brasil & Turquía</title>
+    <link rel="icon" type="image/png" href="/logocatavia.png" />
+    <meta name="description" content="CATAVIA: Descubre el mundo, una taza a la vez. Explora las culturas cafeteras de Colombia, Costa Rica, Panamá, Brasil y Turquía. Mapas sensoriales, marcas de especialidad y coffee tours." />
+    <meta property="og:title" content="CATAVIA | Descubre el Mundo del Café" />
+    <meta property="og:description" content="Una experiencia internacional que conecta a las personas con el café, sus orígenes, sus tradiciones y las experiencias que ofrece cada país." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:locale:alternate" content="fr_CA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CATAVIA | Descubre el Mundo del Café" />
+    <meta name="twitter:description" content="Descubre el mundo, una taza a la vez con CATAVIA. Explora la cultura cafetera de Colombia, Costa Rica, Panamá, Brasil y Turquía." />
+    
+    <!-- World-Class Luxury Fonts: Fraunces (Award-Winning Editorial Serif) + Instrument Serif + Plus Jakarta Sans + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Inline script to prevent theme flash -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('coffee_theme');
+          var isDark = saved === 'dark' || (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.colorScheme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Brand",
+      "name": "CATAVIA - Café Colombiano",
+      "description": "CATAVIA: Café colombiano de especialidad de origen para entrega directa a domicilio en Estados Unidos y Canadá.",
+      "areaServed": ["US", "CA"],
+      "knowsAbout": ["Specialty Coffee", "Single Origin Coffee", "Colombian Coffee Culture"]
+    }
+    </script>
+  </head>
+  <body class="bg-[#FAF8F5] dark:bg-[#0B0E0D] text-[#141816] dark:text-[#FAF8F5] antialiased selection:bg-[#E85D04] selection:text-white transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

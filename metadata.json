@@ -1,0 +1,6 @@
+{
+  "name": "Café Colombia",
+  "description": "Descubre Colombia, una taza a la vez. Café colombiano de alta calidad, entregas en Estados Unidos y Canadá.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
