@@ -41,14 +41,17 @@ export default function Footer() {
                   CATAVIA
                 </span>
                 <span className="text-[10px] uppercase font-mono tracking-[0.24em] text-[#E85D04] font-bold mt-1">
-                  Atlas Cafetero Internacional
+                  {t('footer.atlasSubtitle', { defaultValue: 'Atlas Cafetero Internacional' })}
                 </span>
               </div>
             </button>
             <p className="text-xs sm:text-sm text-white/65 leading-relaxed font-normal mb-8 max-w-sm">
               {isColombia
                 ? t('footer.about')
-                : 'CATAVIA conecta a los amantes del buen café con las culturas cafeteras más legendarias del planeta: Colombia, Costa Rica, Panamá, Brasil y Turquía.'}
+                : t('footer.aboutWorld', {
+                    defaultValue:
+                      'CATAVIA conecta a los amantes del buen café con las culturas cafeteras más legendarias del planeta: Colombia, Costa Rica, Panamá, Brasil y Turquía.',
+                  })}
             </p>
             <div className="flex items-center gap-3 text-xs mb-4">
               <span className="text-white/40 uppercase font-mono tracking-wider text-[10px]">{t('footer.languageLabel', { defaultValue: 'Idioma:' })}</span>

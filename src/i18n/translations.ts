@@ -355,6 +355,8 @@ export const translations = {
     },
     footer: {
       about: "CATAVIA es una iniciativa dedicada a tender un puente directo entre los más nobles orígenes cafeteros de Colombia y las tazas de los amantes del buen café en Norteamérica.",
+      aboutWorld: "CATAVIA conecta a los amantes del buen café con las culturas cafeteras más legendarias del planeta: Colombia, Costa Rica, Panamá, Brasil y Turquía.",
+      atlasSubtitle: "Atlas Cafetero Internacional",
       linksTitle: "Navegación",
       regionsTitle: "Regiones de Origen",
       huila: "Huila (Valle del Río Magdalena)",
@@ -889,6 +891,8 @@ export const translations = {
     },
     footer: {
       about: "CATAVIA bridges Colombia's most celebrated specialty coffee terroirs directly to the homes of discerning coffee enthusiasts across North America.",
+      aboutWorld: "CATAVIA connects lovers of fine coffee with the planet's most legendary coffee cultures: Colombia, Costa Rica, Panama, Brazil, and Turkey.",
+      atlasSubtitle: "International Coffee Atlas",
       linksTitle: "Navigation",
       regionsTitle: "Origin Regions",
       huila: "Huila (Magdalena River Valley)",
@@ -1421,6 +1425,8 @@ export const translations = {
     },
     footer: {
       about: "CATAVIA relie directement les plus prestigieux terroirs colombiens aux foyers des amateurs de café d'exception en Amérique du Nord.",
+      aboutWorld: "CATAVIA connecte les amateurs de bon café aux cultures caféières les plus légendaires de la planète : Colombie, Costa Rica, Panama, Brésil et Turquie.",
+      atlasSubtitle: "Atlas Caféier International",
       linksTitle: "Navigation",
       regionsTitle: "Terroirs d'Origine",
       huila: "Huila (Vallée du fleuve Magdalena)",
