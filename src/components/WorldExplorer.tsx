@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '../context/NavigationContext.tsx';
 import { COUNTRIES_DATA, CountryData } from '../data/countriesData.ts';
+import { getLocalizedCountry, getLocalizedCountryData } from '../utils/countryLocalization.ts';
 import {
   Compass,
   ArrowRight,
@@ -105,25 +106,28 @@ export default function WorldExplorer() {
 
           {/* 5 Countries Quick Indicator Bar */}
           <div className="mt-14 pt-8 border-t border-white/15 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-mono tracking-widest text-white/80 uppercase">
-            {countriesList.map((c) => (
-              <button
-                key={c.slug}
-                onClick={() => {
-                  if (c.slug === 'colombia') navigate('/colombia');
-                  else navigate(`/${c.slug}`);
-                }}
-                className="hover:text-[#E85D04] transition-colors flex items-center gap-1.5 cursor-pointer"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E85D04]" />
-                <span className="font-bold">{c.name}</span>
-              </button>
-            ))}
+            {countriesList.map((c) => {
+              const locC = getLocalizedCountryData(c, i18n.language);
+              return (
+                <button
+                  key={c.slug}
+                  onClick={() => {
+                    if (c.slug === 'colombia') navigate('/colombia');
+                    else navigate(`/${c.slug}`);
+                  }}
+                  className="hover:text-[#E85D04] transition-colors flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E85D04]" />
+                  <span className="font-bold">{locC.name}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Scroll down hint */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-[10px] font-mono tracking-widest uppercase flex flex-col items-center gap-1 animate-bounce">
-          <span>DESLIZA PARA DESCUBRIR</span>
+          <span>{t('world.scrollHint', { defaultValue: 'DESLIZA PARA DESCUBRIR' })}</span>
           <ChevronRight className="w-3.5 h-3.5 rotate-90" />
         </div>
       </section>
@@ -135,7 +139,7 @@ export default function WorldExplorer() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 space-y-4">
             <span className="text-xs font-mono uppercase tracking-widest text-[#E85D04] font-bold block">
-              FILOSOFÍA CATAVIA
+              {t('world.philosophyKicker', { defaultValue: 'FILOSOFÍA CATAVIA' })}
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#141816] dark:text-white tracking-tight leading-tight">
               {t('world.manifestoTitle', { defaultValue: 'El café no es un producto. Es la memoria viva de cada tierra.' })}
@@ -189,7 +193,7 @@ export default function WorldExplorer() {
                   : 'text-[#606863] dark:text-[#9DA7A1] hover:text-[#141816]'
               }`}
             >
-              Todos (5)
+              {t('world.filterAll', { defaultValue: 'Todos (5)' })}
             </button>
             <button
               onClick={() => setSelectedFilter('sudamerica')}
@@ -199,7 +203,7 @@ export default function WorldExplorer() {
                   : 'text-[#606863] dark:text-[#9DA7A1] hover:text-[#141816]'
               }`}
             >
-              Sudamérica
+              {t('world.filterSouthAmerica', { defaultValue: 'Sudamérica' })}
             </button>
             <button
               onClick={() => setSelectedFilter('centroamerica')}
@@ -209,7 +213,7 @@ export default function WorldExplorer() {
                   : 'text-[#606863] dark:text-[#9DA7A1] hover:text-[#141816]'
               }`}
             >
-              Centroamérica
+              {t('world.filterCentralAmerica', { defaultValue: 'Centroamérica' })}
             </button>
             <button
               onClick={() => setSelectedFilter('europa-oriente')}
@@ -219,7 +223,7 @@ export default function WorldExplorer() {
                   : 'text-[#606863] dark:text-[#9DA7A1] hover:text-[#141816]'
               }`}
             >
-              Europa & Oriente
+              {t('world.filterEuropeEast', { defaultValue: 'Europa & Oriente' })}
             </button>
           </div>
         </div>
@@ -227,6 +231,7 @@ export default function WorldExplorer() {
         {/* The Luxury Editorial Gallery - All 5 Countries Treated Equally */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCountries.map((country) => {
+            const locC = getLocalizedCountryData(country, i18n.language);
             return (
               <div
                 key={country.slug}
@@ -240,7 +245,7 @@ export default function WorldExplorer() {
                 <div className="relative overflow-hidden aspect-[4/3]">
                   <img
                     src={country.heroImage}
-                    alt={country.name}
+                    alt={locC.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     onError={(e) => {
                       e.currentTarget.src = 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=80';
@@ -253,14 +258,14 @@ export default function WorldExplorer() {
                   {/* Top Bar: Kicker & Real Map Badge */}
                   <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-white text-xs font-mono">
                     <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-[10px] uppercase font-bold text-[#FAF8F5]">
-                      {country.editorialKicker}
+                      {locC.editorialKicker}
                     </span>
 
                     {/* Real Woven Map Thumbnail Icon */}
                     <div className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 p-1 flex items-center justify-center overflow-hidden opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all shadow-md">
                       <img
                         src={country.realMapImage}
-                        alt={`Mapa ${country.name}`}
+                        alt={`Mapa ${locC.name}`}
                         className="w-full h-full object-contain"
                       />
                     </div>
@@ -271,16 +276,18 @@ export default function WorldExplorer() {
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-[#E85D04]" />
                       <span className="text-[10px] font-mono uppercase tracking-widest text-[#E85D04] font-bold">
-                        {country.isOriginProducer ? 'ORIGEN PRODUCTOR' : 'PATRIMONIO CULTURAL'}
+                        {country.isOriginProducer
+                          ? t('world.producerOrigin', { defaultValue: 'ORIGEN PRODUCTOR' })
+                          : t('world.culturalHeritage', { defaultValue: 'PATRIMONIO CULTURAL' })}
                       </span>
                     </div>
 
                     <h3 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black tracking-tight leading-none text-white">
-                      {country.name}
+                      {locC.name}
                     </h3>
 
                     <p className="text-sm font-serif italic text-white/90 line-clamp-1">
-                      "{country.conceptSubtitle}"
+                      "{locC.conceptSubtitle}"
                     </p>
                   </div>
                 </div>
@@ -288,23 +295,23 @@ export default function WorldExplorer() {
                 {/* Card Lower Narrative Block */}
                 <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-4">
                   <p className="text-xs sm:text-sm text-[#3C443F] dark:text-[#CBD5E1] font-sans leading-relaxed line-clamp-3">
-                    {country.narrativeLead}
+                    {locC.narrativeLead}
                   </p>
 
                   {/* Features metadata pills */}
                   <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-black/5 dark:border-white/5 text-[11px] font-mono text-[#606863] dark:text-[#9DA7A1]">
-                    <span>{country.regions.length} Regiones</span>
+                    <span>{t('world.regionsMeta', { count: country.regions.length, defaultValue: `${country.regions.length} Regiones` })}</span>
                     <span>·</span>
-                    <span>{country.brands.length} Marcas</span>
+                    <span>{t('world.brandsMeta', { count: country.brands.length, defaultValue: `${country.brands.length} Marcas` })}</span>
                     <span>·</span>
-                    <span>{country.tours.length} Coffee Tours</span>
+                    <span>{t('world.toursMeta', { count: country.tours.length, defaultValue: `${country.tours.length} Coffee Tours` })}</span>
                     <span>·</span>
-                    <span>{country.baristaClasses.length} Talleres</span>
+                    <span>{t('world.workshopsMeta', { count: country.baristaClasses.length, defaultValue: `${country.baristaClasses.length} Talleres` })}</span>
                   </div>
 
                   {/* Action Link Button */}
                   <div className="pt-2 flex items-center justify-between font-mono text-xs uppercase font-bold text-[#E85D04] group-hover:translate-x-1 transition-transform">
-                    <span>Descubrir {country.name}</span>
+                    <span>{t('world.discoverCountry', { country: locC.name, defaultValue: `Descubrir ${locC.name}` })}</span>
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
@@ -328,7 +335,7 @@ export default function WorldExplorer() {
               {t('world.fourPillarsTitle', { defaultValue: 'Cómo se Vive el Mundo del Café' })}
             </h2>
             <p className="text-sm sm:text-base text-[#606863] dark:text-[#9DA7A1] mt-2 font-sans">
-              En cada país de la colección CATAVIA podrás adentrarte en cuatro dimensiones creadas con rigurosidad y pasión:
+              {t('world.fourPillarsSubtitle', { defaultValue: 'En cada país de la colección CATAVIA podrás adentrarte en cuatro dimensiones creadas con rigurosidad y pasión:' })}
             </p>
           </div>
 
@@ -340,14 +347,14 @@ export default function WorldExplorer() {
                   <Compass className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-serif font-bold text-[#141816] dark:text-white mb-2">
-                  1. Mapas & Regiones
+                  {t('world.pillar1Title', { defaultValue: '1. Mapas & Regiones' })}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#606863] dark:text-[#9DA7A1] font-sans leading-relaxed">
-                  Siluetas geográficas reales de cada país con marcadores interactivos de las zonas productoras y perfiles sensoriales de suelo y altitud.
+                  {t('world.pillar1Desc', { defaultValue: 'Siluetas geográficas reales de cada país con marcadores interactivos de las zonas productoras y perfiles sensoriales de suelo y altitud.' })}
                 </p>
               </div>
               <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 text-[10px] font-mono text-[#E85D04] font-bold">
-                CARTOGRAFÍA VERIFICADA
+                {t('world.pillar1Badge', { defaultValue: 'CARTOGRAFÍA VERIFICADA' })}
               </div>
             </div>
 
@@ -358,14 +365,14 @@ export default function WorldExplorer() {
                   <Coffee className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-serif font-bold text-[#141816] dark:text-white mb-2">
-                  2. Marcas & Propuestas
+                  {t('world.pillar2Title', { defaultValue: '2. Marcas & Propuestas' })}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#606863] dark:text-[#9DA7A1] font-sans leading-relaxed">
-                  Productores auténticos como Café Monteverde en Costa Rica, los pioneros del Geisha en Boquete o el legendario Mehmet Efendi en Turquía.
+                  {t('world.pillar2Desc', { defaultValue: 'Productores auténticos como Café Monteverde en Costa Rica, los pioneros del Geisha en Boquete o el legendario Mehmet Efendi en Turquía.' })}
                 </p>
               </div>
               <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 text-[10px] font-mono text-[#E85D04] font-bold">
-                TRAZABILIDAD 100% REAL
+                {t('world.pillar2Badge', { defaultValue: 'TRAZABILIDAD 100% REAL' })}
               </div>
             </div>
 
@@ -376,14 +383,14 @@ export default function WorldExplorer() {
                   <MapPin className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-serif font-bold text-[#141816] dark:text-white mb-2">
-                  3. Coffee Tours
+                  {t('world.pillar3Title', { defaultValue: '3. Coffee Tours' })}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#606863] dark:text-[#9DA7A1] font-sans leading-relaxed">
-                  Recorridos vivenciales por fincas sostenibles, molinos de beneficio hidráulico y rutas de cafeterías históricas con enlaces oficiales.
+                  {t('world.pillar3Desc', { defaultValue: 'Recorridos vivenciales por fincas sostenibles, molinos de beneficio hidráulico y rutas de cafeterías históricas con enlaces oficiales.' })}
                 </p>
               </div>
               <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 text-[10px] font-mono text-[#E85D04] font-bold">
-                OPERADORES LOCALES
+                {t('world.pillar3Badge', { defaultValue: 'OPERADORES LOCALES' })}
               </div>
             </div>
 
@@ -394,14 +401,14 @@ export default function WorldExplorer() {
                   <Layers className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-serif font-bold text-[#141816] dark:text-white mb-2">
-                  4. Barismo & Catación
+                  {t('world.pillar4Title', { defaultValue: '4. Barismo & Catación' })}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#606863] dark:text-[#9DA7A1] font-sans leading-relaxed">
-                  Talleres de extracción (Chorreador, Cezve, V60) y sesiones de cata comparativa bajo los estándares de la Rueda Sensorial SCA.
+                  {t('world.pillar4Desc', { defaultValue: 'Talleres de extracción (Chorreador, Cezve, V60) y sesiones de cata comparativa bajo los estándares de la Rueda Sensorial SCA.' })}
                 </p>
               </div>
               <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 text-[10px] font-mono text-[#E85D04] font-bold">
-                EXPERIENCIAS SENSORIALES
+                {t('world.pillar4Badge', { defaultValue: 'EXPERIENCIAS SENSORIALES' })}
               </div>
             </div>
           </div>
@@ -419,18 +426,18 @@ export default function WorldExplorer() {
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
               <span className="text-xs font-mono uppercase tracking-widest text-[#E85D04] font-bold block">
-                TIENDA OFICIAL DE ORIGEN · CATAVIA COLOMBIA
+                {t('world.colombiaBannerKicker', { defaultValue: 'TIENDA OFICIAL DE ORIGEN · CATAVIA COLOMBIA' })}
               </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">
-                ¿Deseas degustar auténtico café colombiano en casa?
+                {t('world.colombiaBannerTitle', { defaultValue: '¿Deseas degustar auténtico café colombiano en casa?' })}
               </h2>
               <p className="text-sm sm:text-base text-white/80 max-w-2xl font-sans leading-relaxed">
-                Nuestra experiencia comercial de café de especialidad de Colombia está activa con microlotes seleccionados a mano, tostados bajo pedido y entregas express a tu puerta en Estados Unidos y Canadá.
+                {t('world.colombiaBannerDesc', { defaultValue: 'Nuestra experiencia comercial de café de especialidad de Colombia está activa con microlotes seleccionados a mano, tostados bajo pedido y entregas express a tu puerta en Estados Unidos y Canadá.' })}
               </p>
               <div className="flex flex-wrap gap-4 text-xs font-mono text-white/70 pt-2">
-                <span>✓ Envío aéreo directo (3-5 días)</span>
-                <span>✓ Selector sensorial interactivo</span>
-                <span>✓ Variedades Geisha, Castillo y Caturra</span>
+                <span>{t('world.colombiaBannerF1', { defaultValue: '✓ Envío aéreo directo (3-5 días)' })}</span>
+                <span>{t('world.colombiaBannerF2', { defaultValue: '✓ Selector sensorial interactivo' })}</span>
+                <span>{t('world.colombiaBannerF3', { defaultValue: '✓ Variedades Geisha, Castillo y Caturra' })}</span>
               </div>
             </div>
 
@@ -439,7 +446,7 @@ export default function WorldExplorer() {
                 onClick={() => navigate('/colombia')}
                 className="w-full py-4 px-6 rounded-full bg-[#E85D04] hover:bg-[#d45300] text-white text-xs font-mono uppercase font-bold tracking-wider transition-all shadow-xl flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>Descubre Colombia en CATAVIA</span>
+                <span>{t('world.colombiaBannerBtn', { defaultValue: 'Descubre Colombia en CATAVIA' })}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
@@ -450,7 +457,7 @@ export default function WorldExplorer() {
                 }}
                 className="w-full py-3 px-6 rounded-full bg-white/10 hover:bg-white/15 text-white border border-white/15 text-xs font-mono uppercase font-bold tracking-wider transition-all text-center cursor-pointer"
               >
-                Seguir Explorando el Atlas
+                {t('world.continueAtlasBtn', { defaultValue: 'Seguir Explorando el Atlas' })}
               </button>
             </div>
           </div>

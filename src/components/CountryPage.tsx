@@ -4,6 +4,7 @@ import { CountryData, COUNTRIES_DATA } from '../data/countriesData.ts';
 import { useNavigation } from '../context/NavigationContext.tsx';
 import CountrySvgMap from './CountrySvgMap.tsx';
 import Catalog from './Catalog.tsx';
+import { getLocalizedCountry, getLocalizedCountryData } from '../utils/countryLocalization.ts';
 import {
   Compass,
   ArrowRight,
@@ -30,17 +31,16 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
   const { t, i18n } = useTranslation();
   const { navigate } = useNavigation();
 
-  const country: CountryData = COUNTRIES_DATA[countrySlug] || COUNTRIES_DATA['costa-rica'];
+  const baseCountry: CountryData = COUNTRIES_DATA[countrySlug] || COUNTRIES_DATA['costa-rica'];
+  const country: CountryData = getLocalizedCountryData(baseCountry, i18n.language);
   const [activeTab, setActiveTab] = useState<'all' | 'marcas' | 'tours' | 'cursos' | 'catacion'>('all');
 
   // Other countries for the footer cross-navigation
   const otherCountries = Object.values(COUNTRIES_DATA).filter((c) => c.slug !== country.slug);
 
-  // Localized country name
-  const localizedName =
-    i18n.language.startsWith('en') ? country.nameEn :
-    i18n.language.startsWith('fr') ? country.nameFr :
-    country.name;
+  // Localized country data
+  const loc = getLocalizedCountry(country, t, i18n.language);
+  const localizedName = country.name;
 
   return (
     <div key={country.slug} className="min-h-screen bg-[#FAF8F5] dark:bg-[#0B0E0D] text-[#141816] dark:text-[#FAF8F5] transition-colors duration-300">
@@ -52,7 +52,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
         <div className="absolute inset-0 z-0 select-none">
           <img
             src={country.heroImage}
-            alt={`Cultura cafetera de ${country.name}`}
+            alt={`Cultura cafetera de ${localizedName}`}
             className="w-full h-full object-cover scale-105 animate-pulse-subtle"
             onError={(e) => {
               e.currentTarget.src = 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1920&q=85';
@@ -88,7 +88,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
               {/* Kicker */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white text-xs font-mono tracking-widest uppercase mb-4 self-center sm:self-start">
                 <Sparkles className="w-3.5 h-3.5 text-[#E85D04]" />
-                <span>{country.editorialKicker}</span>
+                <span>{loc.kicker}</span>
               </div>
 
               {/* Majestic Serif Country Title */}
@@ -98,7 +98,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
 
               {/* Concept Subtitle */}
               <p className="text-xl sm:text-2xl lg:text-3xl font-serif italic text-white/90 max-w-2xl mb-4">
-                "{country.conceptSubtitle}"
+                "{loc.subtitle}"
               </p>
 
               {/* Editorial Lead Description */}
@@ -110,17 +110,17 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 pt-4 border-t border-white/15 text-xs font-mono text-white/90">
                 {country.altitudeRange && (
                   <div className="flex items-center gap-2">
-                    <span className="text-[#E85D04] font-bold">ALTITUD:</span>
+                    <span className="text-[#E85D04] font-bold">{t('country.altitudeLabel', { defaultValue: 'ALTITUD:' })}</span>
                     <span>{country.altitudeRange}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-2">
-                  <span className="text-[#E85D04] font-bold">CARÁCTER:</span>
+                  <span className="text-[#E85D04] font-bold">{t('country.characterLabel', { defaultValue: 'CARÁCTER:' })}</span>
                   <span>{country.annualProductionNote}</span>
                 </div>
                 {country.keyHarvestSeason && (
                   <div className="hidden md:flex items-center gap-2">
-                    <span className="text-[#E85D04] font-bold">COSECHA:</span>
+                    <span className="text-[#E85D04] font-bold">{t('country.harvestLabel', { defaultValue: 'COSECHA:' })}</span>
                     <span>{country.keyHarvestSeason}</span>
                   </div>
                 )}
@@ -165,7 +165,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                 <div className="flex items-center justify-between pb-3 mb-2 border-b border-white/10 text-[10px] font-mono tracking-wider">
                   <span className="text-[#E85D04] font-bold flex items-center gap-1.5 uppercase">
                     <Compass className="w-3.5 h-3.5" />
-                    <span>{country.name}</span>
+                    <span>{localizedName}</span>
                   </span>
                   <span className="text-white/70 uppercase">
                     CATAVIA ATLAS
@@ -176,7 +176,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                 <div className="relative w-full aspect-square max-w-[340px] mx-auto rounded-2xl overflow-hidden my-3 bg-[#0A0D0B] border border-white/10 flex items-center justify-center group/map shadow-inner">
                   <img
                     src={country.realMapImage}
-                    alt={`Mapa de ${country.name}`}
+                    alt={`Mapa de ${localizedName}`}
                     className="w-full h-full object-contain p-2 select-none transition-transform duration-700 group-hover/map:scale-105 drop-shadow-[0_12px_24px_rgba(0,0,0,0.9)]"
                     loading="eager"
                   />
@@ -189,13 +189,13 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                 {/* Bottom card footer */}
                 <div className="flex items-center justify-between pt-3 border-t border-white/10 text-xs font-mono">
                   <span className="text-white/80 text-[11px]">
-                    <strong className="text-[#E85D04] font-bold">{country.regions.length}</strong> Zonas en Cartografía
+                    <strong className="text-[#E85D04] font-bold">{country.regions.length}</strong> {t('country.zonesInMap', { count: country.regions.length, defaultValue: 'Zonas en Cartografía' })}
                   </span>
                   <a
                     href="#mapa-geografico"
                     className="text-[#E85D04] hover:text-[#ff7b29] font-bold flex items-center gap-1 transition-colors text-[11px]"
                   >
-                    <span>Ver cartografía sensorial</span>
+                    <span>{t('country.viewCartography', { defaultValue: 'Ver cartografía sensorial' })}</span>
                     <ArrowRight className="w-3 h-3" />
                   </a>
                 </div>
@@ -206,7 +206,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-[10px] font-mono tracking-widest uppercase flex flex-col items-center gap-1 animate-bounce">
-          <span>DESLIZA HACIA EL MAPA</span>
+          <span>{t('country.scrollHint', { defaultValue: 'DESLIZA HACIA EL MAPA' })}</span>
           <ChevronRight className="w-3.5 h-3.5 rotate-90" />
         </div>
       </section>
@@ -260,7 +260,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-black/10 dark:border-white/10 aspect-[4/5] group">
                 <img
                   src={country.cultureImage}
-                  alt={`Tradición de café en ${country.name}`}
+                  alt={`Tradición de café en ${localizedName}`}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   onError={(e) => {
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80';
@@ -269,10 +269,10 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 text-white">
                   <span className="text-[10px] font-mono uppercase tracking-widest text-[#E85D04] font-bold block mb-1">
-                    ATMÓSFERA LOCAL
+                    {t('country.localAtmosphere', { defaultValue: 'ATMÓSFERA LOCAL' })}
                   </span>
                   <p className="text-sm font-serif italic text-white/90">
-                    "{country.editorialKicker} — Donde cada preparación es un acto de arte y devoción."
+                    "{loc.kicker}"
                   </p>
                 </div>
               </div>
@@ -281,7 +281,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
               <div className="absolute -bottom-6 -right-4 sm:-right-6 bg-white dark:bg-[#1E2420] text-[#141816] dark:text-white p-4 rounded-2xl shadow-xl border border-black/10 dark:border-white/10 max-w-xs text-xs font-sans">
                 <span className="font-bold text-[#E85D04] block mb-0.5">CATAVIA CURATED ATLAS</span>
                 <p className="text-xs text-stone-600 dark:text-stone-300">
-                  Exploración auténtica sin intermediarios de la cultura cafetera mundial.
+                  {t('country.curatedAtlasQuote', { defaultValue: 'Exploración auténtica sin intermediarios de la cultura cafetera mundial.' })}
                 </p>
               </div>
             </div>
@@ -350,7 +350,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                       {brand.location}
                     </span>
                     <span className="text-xs font-mono text-white/80">
-                      Fundada en {brand.founded || 'Tradición Histórica'}
+                      {t('country.foundedIn', { defaultValue: 'Fundada en' })} {brand.founded || t('country.historicalTradition', { defaultValue: 'Tradición Histórica' })}
                     </span>
                   </div>
                 </div>
@@ -396,7 +396,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-black/10 dark:border-white/10">
                     {brand.varieties && (
                       <div className="text-xs text-[#606863] dark:text-[#9DA7A1]">
-                        <span className="font-bold text-[#141816] dark:text-white">Variedades:</span>{' '}
+                        <span className="font-bold text-[#141816] dark:text-white">{t('country.varietiesLabel', { defaultValue: 'Variedades:' })}</span>{' '}
                         {brand.varieties.join(', ')}
                       </div>
                     )}
@@ -488,7 +488,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                       {tour.title}
                     </h3>
                     <p className="text-xs font-mono text-[#606863] dark:text-[#9DA7A1]">
-                      Operador: <strong className="text-[#141816] dark:text-white">{tour.operator}</strong>
+                      {t('country.operatorLabel', { defaultValue: 'Operador:' })} <strong className="text-[#141816] dark:text-white">{tour.operator}</strong>
                     </p>
                     <p className="text-sm text-[#3C443F] dark:text-[#CBD5E1] font-sans leading-relaxed">
                       {tour.description}
@@ -496,7 +496,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
 
                     <div className="space-y-1.5 pt-2">
                       <span className="text-[10px] font-mono uppercase tracking-wider text-[#606863] dark:text-[#9DA7A1] font-bold">
-                        Puntos Destacados:
+                        {t('country.highlightsLabel', { defaultValue: 'Puntos Destacados:' })}
                       </span>
                       {tour.highlights.map((h, hIdx) => (
                         <div key={hIdx} className="flex items-center gap-2 text-xs text-[#3C443F] dark:text-[#CBD5E1]">
@@ -565,7 +565,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                   </span>
                   <span className="text-[#606863] dark:text-[#9DA7A1] flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5" />
-                    {cls.duration} · Nivel: {cls.level}
+                    {cls.duration} · {t('country.levelLabel', { defaultValue: 'Nivel:' })} {cls.level}
                   </span>
                 </div>
 
@@ -592,10 +592,10 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
 
               <div className="pt-6 mt-6 border-t border-black/10 dark:border-white/10 flex items-center justify-between">
                 <span className="text-xs font-mono text-[#606863] dark:text-[#9DA7A1]">
-                  Talleres Verificados en la Región
+                  {t('country.verifiedWorkshops', { defaultValue: 'Talleres Verificados en la Región' })}
                 </span>
                 <span className="text-xs font-mono uppercase font-bold text-[#E85D04] flex items-center gap-1">
-                  <span>Guía Curada</span>
+                  <span>{t('country.curatedGuide', { defaultValue: 'Guía Curada' })}</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </div>
@@ -648,7 +648,7 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                     {/* Sample Profiles */}
                     <div className="pt-2 space-y-2">
                       <span className="text-[10px] font-mono uppercase tracking-wider text-white/50 block font-bold">
-                        Lotes de Muestra Comparativa:
+                        {t('country.sampleLots', { defaultValue: 'Lotes de Muestra Comparativa:' })}
                       </span>
                       {tasting.sampleProfiles.map((sample, sIdx) => (
                         <div
@@ -669,30 +669,40 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
                   <div className="lg:col-span-6 p-6 rounded-2xl bg-black/50 border border-white/10 space-y-3">
                     <div className="flex items-center justify-between pb-3 border-b border-white/10">
                       <span className="text-xs font-mono uppercase text-[#E85D04] font-bold">
-                        RUEDA SENSORIAL DEL ORIGEN (SCA)
+                        {t('country.sensoryWheelTitle', { defaultValue: 'RUEDA SENSORIAL DEL ORIGEN (SCA)' })}
                       </span>
                       <Sparkles className="w-4 h-4 text-[#E85D04]" />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                       <div className="p-2.5 rounded-lg bg-white/5">
-                        <span className="text-[10px] font-mono text-white/50 block uppercase">AROMA & FRAGANCIA</span>
+                        <span className="text-[10px] font-mono text-white/50 block uppercase">
+                          {t('country.wheelAroma', { defaultValue: 'AROMA & FRAGANCIA' })}
+                        </span>
                         <span className="font-medium text-white">{tasting.sensoryWheel.aroma}</span>
                       </div>
                       <div className="p-2.5 rounded-lg bg-white/5">
-                        <span className="text-[10px] font-mono text-white/50 block uppercase">ACIDEZ</span>
+                        <span className="text-[10px] font-mono text-white/50 block uppercase">
+                          {t('country.wheelAcidity', { defaultValue: 'ACIDEZ' })}
+                        </span>
                         <span className="font-medium text-white">{tasting.sensoryWheel.acidity}</span>
                       </div>
                       <div className="p-2.5 rounded-lg bg-white/5">
-                        <span className="text-[10px] font-mono text-white/50 block uppercase">CUERPO & TEXTURA</span>
+                        <span className="text-[10px] font-mono text-white/50 block uppercase">
+                          {t('country.wheelBody', { defaultValue: 'CUERPO & TEXTURA' })}
+                        </span>
                         <span className="font-medium text-white">{tasting.sensoryWheel.body}</span>
                       </div>
                       <div className="p-2.5 rounded-lg bg-white/5">
-                        <span className="text-[10px] font-mono text-white/50 block uppercase">DULZURA</span>
+                        <span className="text-[10px] font-mono text-white/50 block uppercase">
+                          {t('country.wheelSweetness', { defaultValue: 'DULZURA' })}
+                        </span>
                         <span className="font-medium text-white">{tasting.sensoryWheel.sweetness}</span>
                       </div>
                       <div className="sm:col-span-2 p-2.5 rounded-lg bg-white/5">
-                        <span className="text-[10px] font-mono text-white/50 block uppercase">RETROGUSTO & FINAL</span>
+                        <span className="text-[10px] font-mono text-white/50 block uppercase">
+                          {t('country.wheelFinish', { defaultValue: 'RETROGUSTO & FINAL' })}
+                        </span>
                         <span className="font-medium text-white">{tasting.sensoryWheel.finish}</span>
                       </div>
                     </div>
@@ -717,47 +727,50 @@ export default function CountryPage({ countrySlug }: CountryPageProps) {
             {t('country.exploreOtherOrigins', { defaultValue: 'Explora Otros Países Cafeteros' })}
           </h2>
           <p className="text-sm text-[#606863] dark:text-[#9DA7A1] mt-2 font-sans">
-            Cada nación custodia una historia irrepetible. Selecciona el siguiente destino en tu pasaporte cafetero.
+            {t('country.otherOriginsDesc', { defaultValue: 'Cada nación custodia una historia irrepetible. Selecciona el siguiente destino en tu pasaporte cafetero.' })}
           </p>
         </div>
 
         {/* Other countries cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {otherCountries.map((other) => (
-            <div
-              key={other.slug}
-              onClick={() => navigate(other.slug === 'colombia' ? '/colombia' : `/${other.slug}`)}
-              className="group cursor-pointer rounded-2xl overflow-hidden bg-white dark:bg-[#141816] border border-black/10 dark:border-white/10 shadow-md hover:shadow-2xl hover:border-[#E85D04]/60 transition-all duration-300 flex flex-col"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img
-                  src={other.heroImage}
-                  alt={other.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-3 left-4 right-4 text-white">
-                  <span className="text-[10px] font-mono text-[#E85D04] uppercase font-bold tracking-wider block">
-                    {other.editorialKicker}
-                  </span>
-                  <h4 className="text-xl font-serif font-bold">{other.name}</h4>
+          {otherCountries.map((other) => {
+            const otherLoc = getLocalizedCountry(other, t, i18n.language);
+            return (
+              <div
+                key={other.slug}
+                onClick={() => navigate(other.slug === 'colombia' ? '/colombia' : `/${other.slug}`)}
+                className="group cursor-pointer rounded-2xl overflow-hidden bg-white dark:bg-[#141816] border border-black/10 dark:border-white/10 shadow-md hover:shadow-2xl hover:border-[#E85D04]/60 transition-all duration-300 flex flex-col"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={other.heroImage}
+                    alt={otherLoc.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-3 left-4 right-4 text-white">
+                    <span className="text-[10px] font-mono text-[#E85D04] uppercase font-bold tracking-wider block">
+                      {otherLoc.kicker}
+                    </span>
+                    <h4 className="text-xl font-serif font-bold">{otherLoc.name}</h4>
+                  </div>
                 </div>
-              </div>
 
-              <div className="p-4 flex-1 flex flex-col justify-between">
-                <p className="text-xs text-[#606863] dark:text-[#9DA7A1] line-clamp-2 font-sans mb-3">
-                  {other.conceptSubtitle}
-                </p>
-                <div className="text-xs font-mono font-bold text-[#E85D04] flex items-center justify-between group-hover:translate-x-1 transition-transform">
-                  <span>{other.slug === 'colombia' ? 'Ver Tienda & Landing' : 'Explorar País'}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                <div className="p-4 flex-1 flex flex-col justify-between">
+                  <p className="text-xs text-[#606863] dark:text-[#9DA7A1] line-clamp-2 font-sans mb-3">
+                    {otherLoc.subtitle}
+                  </p>
+                  <div className="text-xs font-mono font-bold text-[#E85D04] flex items-center justify-between group-hover:translate-x-1 transition-transform">
+                    <span>{other.slug === 'colombia' ? t('country.viewStoreLanding', { defaultValue: 'Ver Tienda & Landing' }) : t('country.exploreCountryBtn', { defaultValue: 'Explorar País' })}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Back to World Explorer Hub button */}

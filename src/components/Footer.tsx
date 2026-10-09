@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useShop } from '../context/ShopContext.tsx';
 import { useTheme } from '../context/ThemeContext.tsx';
 import { useNavigation } from '../context/NavigationContext.tsx';
+import { COUNTRIES_DATA } from '../data/countriesData.ts';
+import { getLocalizedCountryData } from '../utils/countryLocalization.ts';
 import cataviaLogo from '../assets/images/logocatavia.png';
 import { Mail, Globe, MapPin, Heart, Sun, Moon, Laptop, Compass, ArrowRight } from 'lucide-react';
 
@@ -136,52 +138,32 @@ export default function Footer() {
               <span>{t('footer.countriesTitle', { defaultValue: 'Países & Orígenes' })}</span>
             </h4>
             <ul className="space-y-2.5 text-xs text-white/70 font-normal">
-              <li>
-                <button
-                  onClick={() => navigate('/colombia')}
-                  className="hover:text-white flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  <span>🇨🇴 Colombia (Andes Cafeteros)</span>
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => navigate('/costa-rica')}
-                  className="hover:text-white flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  <span>🇨🇷 Costa Rica (Monteverde)</span>
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => navigate('/panama')}
-                  className="hover:text-white flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  <span>🇵🇦 Panamá (Boquete Geisha)</span>
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => navigate('/brasil')}
-                  className="hover:text-white flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  <span>🇧🇷 Brasil (Minas Gerais)</span>
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => navigate('/turquia')}
-                  className="hover:text-white flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  <span>🇹🇷 Turquía (Estambul Cezve)</span>
-                </button>
-              </li>
+              {Object.values(COUNTRIES_DATA).map((c) => {
+                const locC = getLocalizedCountryData(c, i18n.language);
+                const flagMap: Record<string, string> = {
+                  'colombia': '🇨🇴',
+                  'costa-rica': '🇨🇷',
+                  'panama': '🇵🇦',
+                  'brasil': '🇧🇷',
+                  'turquia': '🇹🇷'
+                };
+                return (
+                  <li key={c.slug}>
+                    <button
+                      onClick={() => navigate(c.slug === 'colombia' ? '/colombia' : `/${c.slug}`)}
+                      className="hover:text-white flex items-center gap-2 cursor-pointer transition-colors"
+                    >
+                      <span>{flagMap[c.slug] || '☕'} {locC.name} ({locC.regions[0]?.name || locC.name})</span>
+                    </button>
+                  </li>
+                );
+              })}
               <li className="pt-1">
                 <button
                   onClick={() => navigate('/')}
                   className="text-[#E85D04] font-mono font-bold hover:underline flex items-center gap-1 cursor-pointer"
                 >
-                  <span>Ver Atlas Mundial</span>
+                  <span>{t('nav.seeWorldMap', { defaultValue: 'Ver Atlas Mundial' })}</span>
                   <ArrowRight className="w-3 h-3" />
                 </button>
               </li>
@@ -204,10 +186,10 @@ export default function Footer() {
               <p className="text-[11px] text-white/50 leading-relaxed">{t('footer.hours')}</p>
               <div className="pt-2">
                 <span className="text-[10px] text-white/40 uppercase font-mono tracking-wider block mb-1.5">
-                  Mercado Destino:
+                  {t('footer.targetMarket', { defaultValue: 'Mercado Destino:' })}
                 </span>
                 <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 text-white font-mono text-xs font-semibold">
-                  <span>{country === 'US' ? '🇺🇸 Estados Unidos (USD)' : '🇨🇦 Canadá (CAD)'}</span>
+                  <span>{country === 'US' ? t('nav.usa', { defaultValue: '🇺🇸 Estados Unidos (USD)' }) : t('nav.canada', { defaultValue: '🇨🇦 Canadá (CAD)' })}</span>
                 </span>
               </div>
             </div>
@@ -223,7 +205,7 @@ export default function Footer() {
             })}
           </p>
           <div className="flex items-center gap-4 font-mono">
-            <span>{isColombia ? t('footer.copyright') : '© 2026 CATAVIA. Todos los derechos reservados.'}</span>
+            <span>{t('footer.copyright', { defaultValue: '© 2026 CATAVIA. Todos los derechos reservados.' })}</span>
           </div>
         </div>
       </div>

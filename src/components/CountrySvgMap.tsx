@@ -220,7 +220,7 @@ export default function CountrySvgMap({ country }: CountrySvgMapProps) {
                     fontSize="1.8"
                     fontFamily="monospace"
                   >
-                    {hoveredRegion.altitude || 'Punto Clave'}
+                    {hoveredRegion.altitude || t('country.keyPoint', { defaultValue: 'Punto Clave' })}
                   </text>
                 </g>
               )}
@@ -228,9 +228,9 @@ export default function CountrySvgMap({ country }: CountrySvgMapProps) {
           </div>
 
           <div className="flex items-center justify-between w-full text-[11px] font-mono text-white/50 pt-2 border-t border-white/5 px-2">
-            <span>Haz clic en cualquier punto para fijar la información</span>
+            <span>{t('country.clickPinHint', { defaultValue: 'Haz clic en cualquier punto para fijar la información' })}</span>
             <span className="text-[#E85D04] font-bold">
-              {selectedRegion ? selectedRegion.name.split(':')[0] : 'Selecciona una zona'}
+              {selectedRegion ? selectedRegion.name.split(':')[0] : t('country.selectZone', { defaultValue: 'Selecciona una zona' })}
             </span>
           </div>
         </div>

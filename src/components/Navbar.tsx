@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useShop } from '../context/ShopContext.tsx';
 import { useTheme, ThemeMode } from '../context/ThemeContext.tsx';
 import { useNavigation } from '../context/NavigationContext.tsx';
+import { COUNTRIES_DATA } from '../data/countriesData.ts';
+import { getLocalizedCountryData } from '../utils/countryLocalization.ts';
 import cataviaLogo from '../assets/images/logocatavia.png';
 import {
   ShoppingBag,
@@ -114,7 +116,13 @@ export default function Navbar() {
                 CATAVIA
               </span>
               <span className="text-[7.5px] sm:text-[8.5px] font-mono tracking-[0.2em] sm:tracking-[0.22em] uppercase font-bold text-[#E85D04] leading-none mt-1 whitespace-nowrap">
-                {isColombia ? 'Café Colombiano' : isWorldExplorer ? 'Mundo del Café' : activeCountrySlug?.replace('-', ' ').toUpperCase()}
+                {isColombia
+                  ? t('nav.colombianCoffee', { defaultValue: 'Café Colombiano' })
+                  : isWorldExplorer
+                  ? t('nav.coffeeWorld', { defaultValue: 'Mundo del Café' })
+                  : activeCountrySlug && COUNTRIES_DATA[activeCountrySlug]
+                  ? getLocalizedCountryData(COUNTRIES_DATA[activeCountrySlug], i18n.language).name.toUpperCase()
+                  : ''}
               </span>
             </div>
           </button>
@@ -152,10 +160,10 @@ export default function Navbar() {
                   <div className="flex items-center justify-between px-2 pt-1 pb-2 border-b border-black/5 dark:border-white/5">
                     <span className="text-[10px] font-mono uppercase tracking-widest text-[#E85D04] font-bold flex items-center gap-1.5">
                       <Compass className="w-3.5 h-3.5" />
-                      <span>Países Cafeteros Disponibles</span>
+                      <span>{t('nav.availableCountries', { defaultValue: 'Países Cafeteros Disponibles' })}</span>
                     </span>
                     <span className="text-[10px] font-mono text-[#606863] dark:text-[#9DA7A1]">
-                      5 Destinos
+                      {t('nav.destinationsCount', { count: 5, defaultValue: '5 Destinos' })}
                     </span>
                   </div>
 
@@ -180,7 +188,7 @@ export default function Navbar() {
                           {t('nav.worldExplorerAll', { defaultValue: 'Explorador Mundial' })}
                         </div>
                         <div className="text-[10.5px] text-[#606863] dark:text-[#9DA7A1] leading-tight">
-                          Descubre el mundo, una taza a la vez
+                          {t('nav.worldSubtitle', { defaultValue: 'Descubre el mundo, una taza a la vez' })}
                         </div>
                       </div>
                     </div>
@@ -189,13 +197,15 @@ export default function Navbar() {
 
                   {/* List of Countries - Strictly Countries without brands */}
                   <div className="pt-1 border-t border-black/5 dark:border-white/5 space-y-1">
-                    {[
-                      { slug: 'colombia', name: 'Colombia', flag: '🇨🇴', desc: 'Origen Productor · Suavidad Andina' },
-                      { slug: 'costa-rica', name: 'Costa Rica', flag: '🇨🇷', desc: 'Origen Productor · Bosque Nuboso' },
-                      { slug: 'panama', name: 'Panamá', flag: '🇵🇦', desc: 'Origen Productor · Cuna del Geisha' },
-                      { slug: 'brasil', name: 'Brasil', flag: '🇧🇷', desc: 'Origen Productor · Minas Gerais' },
-                      { slug: 'turquia', name: 'Turquía', flag: '🇹🇷', desc: 'Patrimonio Cultural · Ritual en Cezve' },
-                    ].map((c) => {
+                    {Object.values(COUNTRIES_DATA).map((c) => {
+                      const locC = getLocalizedCountryData(c, i18n.language);
+                      const flagMap: Record<string, string> = {
+                        'colombia': '🇨🇴',
+                        'costa-rica': '🇨🇷',
+                        'panama': '🇵🇦',
+                        'brasil': '🇧🇷',
+                        'turquia': '🇹🇷'
+                      };
                       const isCurrentActive =
                         (c.slug === 'colombia' && isColombia) ||
                         activeCountrySlug === c.slug;
@@ -215,13 +225,13 @@ export default function Navbar() {
                           }`}
                         >
                           <div className="flex items-center gap-3 min-w-0">
-                            <span className="text-xl shrink-0 select-none">{c.flag}</span>
+                            <span className="text-xl shrink-0 select-none">{flagMap[c.slug] || '☕'}</span>
                             <div className="min-w-0">
                               <div className="text-xs font-semibold leading-tight">
-                                <span>{c.name}</span>
+                                <span>{locC.name}</span>
                               </div>
                               <div className="text-[10px] text-[#606863] dark:text-[#9DA7A1] leading-tight truncate">
-                                {c.desc}
+                                {locC.editorialKicker}
                               </div>
                             </div>
                           </div>
@@ -300,14 +310,14 @@ export default function Navbar() {
                 >
                   {t('nav.countriesGallery', { defaultValue: 'Galería de Países' })}
                 </a>
-                <button
-                  onClick={() => navigate('/colombia')}
-                  className={`transition-colors hover:text-[#E85D04] cursor-pointer flex items-center gap-1.5 ${
+                <a
+                  href="#filosofia"
+                  className={`transition-colors hover:text-[#E85D04] ${
                     isScrolled ? 'text-[#141816]/80 dark:text-white/80' : 'text-white/90'
                   }`}
                 >
-                  <span>🇨🇴 Colombia (Tienda Oficial)</span>
-                </button>
+                  {t('world.discoverPhilosophy', { defaultValue: 'Filosofía & Orígenes' })}
+                </a>
               </>
             ) : (
               <>
@@ -335,14 +345,6 @@ export default function Navbar() {
                 >
                   {t('country.navTours', { defaultValue: 'Tours & Cataciones' })}
                 </a>
-                <button
-                  onClick={() => navigate('/colombia')}
-                  className={`transition-colors hover:text-[#E85D04] cursor-pointer text-[#E85D04] font-bold ${
-                    isScrolled ? 'dark:text-[#E85D04]' : 'text-white hover:text-[#E85D04]'
-                  }`}
-                >
-                  🇨🇴 Tienda Colombia
-                </button>
               </>
             )}
 
@@ -525,7 +527,13 @@ export default function Navbar() {
                 CATAVIA
               </span>
               <span className="text-[9px] font-mono tracking-[0.24em] uppercase font-bold text-[#E85D04] leading-tight mt-1">
-                {isColombia ? 'Café Colombiano' : isWorldExplorer ? 'Mundo del Café' : activeCountrySlug?.replace('-', ' ').toUpperCase()}
+                {isColombia
+                  ? t('nav.colombianCoffee', { defaultValue: 'Café Colombiano' })
+                  : isWorldExplorer
+                  ? t('nav.coffeeWorld', { defaultValue: 'Mundo del Café' })
+                  : activeCountrySlug && COUNTRIES_DATA[activeCountrySlug]
+                  ? getLocalizedCountryData(COUNTRIES_DATA[activeCountrySlug], i18n.language).name.toUpperCase()
+                  : ''}
               </span>
             </div>
           </div>
@@ -544,35 +552,39 @@ export default function Navbar() {
                 }}
                 className="text-[10px] font-mono text-[#E85D04] font-bold underline"
               >
-                Ver Mapa Mundial
+                {t('nav.seeWorldMap', { defaultValue: 'Ver Mapa Mundial' })}
               </button>
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-xs font-medium">
-              {[
-                { slug: 'colombia', name: 'Colombia', flag: '🇨🇴' },
-                { slug: 'costa-rica', name: 'Costa Rica', flag: '🇨🇷' },
-                { slug: 'panama', name: 'Panamá', flag: '🇵🇦' },
-                { slug: 'brasil', name: 'Brasil', flag: '🇧🇷' },
-                { slug: 'turquia', name: 'Turquía', flag: '🇹🇷' },
-              ].map((c) => (
-                <button
-                  key={c.slug}
-                  onClick={() => {
-                    if (c.slug === 'colombia') navigate('/colombia');
-                    else navigate(`/${c.slug}`);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`p-2 rounded-xl text-left border flex items-center gap-2 cursor-pointer transition-colors ${
-                    activeCountrySlug === c.slug
-                      ? 'bg-[#E85D04] text-white border-[#E85D04] font-bold'
-                      : 'bg-white dark:bg-white/5 border-black/5 dark:border-white/10 hover:border-[#E85D04]'
-                  }`}
-                >
-                  <span className="text-base">{c.flag}</span>
-                  <span className="truncate">{c.name}</span>
-                </button>
-              ))}
+              {Object.values(COUNTRIES_DATA).map((c) => {
+                const locC = getLocalizedCountryData(c, i18n.language);
+                const flagMap: Record<string, string> = {
+                  'colombia': '🇨🇴',
+                  'costa-rica': '🇨🇷',
+                  'panama': '🇵🇦',
+                  'brasil': '🇧🇷',
+                  'turquia': '🇹🇷'
+                };
+                return (
+                  <button
+                    key={c.slug}
+                    onClick={() => {
+                      if (c.slug === 'colombia') navigate('/colombia');
+                      else navigate(`/${c.slug}`);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`p-2 rounded-xl text-left border flex items-center gap-2 cursor-pointer transition-colors ${
+                      activeCountrySlug === c.slug
+                        ? 'bg-[#E85D04] text-white border-[#E85D04] font-bold'
+                        : 'bg-white dark:bg-white/5 border-black/5 dark:border-white/10 hover:border-[#E85D04]'
+                    }`}
+                  >
+                    <span className="text-base">{flagMap[c.slug] || '☕'}</span>
+                    <span className="truncate">{locC.name}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -603,15 +615,9 @@ export default function Navbar() {
                 <a href="#galeria-paises" onClick={() => setMobileMenuOpen(false)} className="py-1 hover:text-[#E85D04]">
                   {t('nav.countriesGallery', { defaultValue: 'Galería de Países' })}
                 </a>
-                <button
-                  onClick={() => {
-                    navigate('/colombia');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="py-1 text-left text-[#E85D04] hover:underline"
-                >
-                  🇨🇴 Tienda Oficial Colombia
-                </button>
+                <a href="#filosofia" onClick={() => setMobileMenuOpen(false)} className="py-1 hover:text-[#E85D04]">
+                  {t('world.discoverPhilosophy', { defaultValue: 'Filosofía & Orígenes' })}
+                </a>
               </>
             ) : (
               <>
@@ -624,15 +630,6 @@ export default function Navbar() {
                 <a href="#experiencias-tours" onClick={() => setMobileMenuOpen(false)} className="py-1 hover:text-[#E85D04]">
                   {t('country.navTours', { defaultValue: 'Tours & Cataciones' })}
                 </a>
-                <button
-                  onClick={() => {
-                    navigate('/colombia');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="py-1 text-left text-[#E85D04] hover:underline"
-                >
-                  🇨🇴 Tienda Oficial Colombia
-                </button>
               </>
             )}
             <a

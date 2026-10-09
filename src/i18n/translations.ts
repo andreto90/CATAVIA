@@ -10,6 +10,7 @@ export const translations = {
       countriesGallery: "Galería de Países",
       worldExplorerAll: "Explorador Mundial",
       countriesTitle: "Países & Orígenes",
+      targetMarket: "Mercado Destino:",
       origin: "Origen",
       narrative: "Del Origen a Casa",
       discovery: "Descubrimiento",
@@ -26,7 +27,13 @@ export const translations = {
       visualTheme: "Tema Visual: Claro · Oscuro · Sistema",
       themeLight: "Claro",
       themeDark: "Oscuro",
-      themeSystem: "Sistema"
+      themeSystem: "Sistema",
+      seeWorldMap: "Ver Mapa Mundial",
+      worldSubtitle: "Descubre el mundo, una taza a la vez",
+      colombianCoffee: "Café Colombiano",
+      coffeeWorld: "Mundo del Café",
+      availableCountries: "Países Cafeteros Disponibles",
+      destinationsCount: "{{count}} Destinos"
     },
     hero: {
       title: "Descubre Colombia, una taza a la vez.",
@@ -421,7 +428,42 @@ export const translations = {
       openColombiaExperience: "Acceder a Colombia",
       openCountryPage: "Descubrir este país",
       pillarsKicker: "Arquitectura de Descubrimiento",
-      fourPillarsTitle: "Cómo se Vive el Mundo del Café"
+      fourPillarsTitle: "Cómo se Vive el Mundo del Café",
+      discoverPhilosophy: "Filosofía & Orígenes",
+      scrollHint: "DESLIZA PARA DESCUBRIR",
+      philosophyKicker: "FILOSOFÍA CATAVIA",
+      filterAll: "Todos (5)",
+      filterSouthAmerica: "Sudamérica",
+      filterCentralAmerica: "Centroamérica",
+      filterEuropeEast: "Europa & Oriente",
+      producerOrigin: "ORIGEN PRODUCTOR",
+      culturalHeritage: "PATRIMONIO CULTURAL",
+      regionsMeta: "{{count}} Regiones",
+      brandsMeta: "{{count}} Marcas",
+      toursMeta: "{{count}} Coffee Tours",
+      workshopsMeta: "{{count}} Talleres",
+      discoverCountry: "Descubrir {{country}}",
+      fourPillarsSubtitle: "En cada país de la colección CATAVIA podrás adentrarte en cuatro dimensiones creadas con rigurosidad y pasión:",
+      pillar1Title: "1. Mapas & Regiones",
+      pillar1Desc: "Siluetas geográficas reales de cada país con marcadores interactivos de las zonas productoras y perfiles sensoriales de suelo y altitud.",
+      pillar1Badge: "CARTOGRAFÍA VERIFICADA",
+      pillar2Title: "2. Marcas & Propuestas",
+      pillar2Desc: "Productores auténticos como Café Monteverde en Costa Rica, los pioneros del Geisha en Boquete o el legendario Mehmet Efendi en Turquía.",
+      pillar2Badge: "TRAZABILIDAD 100% REAL",
+      pillar3Title: "3. Coffee Tours",
+      pillar3Desc: "Recorridos vivenciales por fincas sostenibles, molinos de beneficio hidráulico y rutas de cafeterías históricas con enlaces oficiales.",
+      pillar3Badge: "OPERADORES LOCALES",
+      pillar4Title: "4. Barismo & Catación",
+      pillar4Desc: "Talleres de extracción (Chorreador, Cezve, V60) y sesiones de cata comparativa bajo los estándares de la Rueda Sensorial SCA.",
+      pillar4Badge: "EXPERIENCIAS SENSORIALES",
+      colombiaBannerKicker: "TIENDA OFICIAL DE ORIGEN · CATAVIA COLOMBIA",
+      colombiaBannerTitle: "¿Deseas degustar auténtico café colombiano en casa?",
+      colombiaBannerDesc: "Nuestra experiencia comercial de café de especialidad de Colombia está activa con microlotes seleccionados a mano, tostados bajo pedido y entregas express a tu puerta en Estados Unidos y Canadá.",
+      colombiaBannerF1: "✓ Envío aéreo directo (3-5 días)",
+      colombiaBannerF2: "✓ Selector sensorial interactivo",
+      colombiaBannerF3: "✓ Variedades Geisha, Castillo y Caturra",
+      colombiaBannerBtn: "Descubre Colombia en CATAVIA",
+      continueAtlasBtn: "Seguir Explorando el Atlas"
     },
     country: {
       backToWorld: "Explorador Mundial",
@@ -467,7 +509,69 @@ export const translations = {
       exploreOtherOrigins: "Explora Otros Países Cafeteros",
       navMap: "Mapa & Terroir",
       navBrands: "Cafés & Marcas",
-      navTours: "Tours & Cataciones"
+      navTours: "Tours & Cataciones",
+      scrollHint: "DESLIZA HACIA EL MAPA",
+      zonesInMap: "{{count}} Zonas en Cartografía",
+      viewCartography: "Ver cartografía sensorial",
+      localAtmosphere: "ATMÓSFERA LOCAL",
+      curatedAtlasQuote: "Exploración auténtica sin intermediarios de la cultura cafetera mundial.",
+      verifiedWorkshops: "Talleres Verificados en la Región",
+      curatedGuide: "Guía Curada",
+      sampleLots: "Lotes de Muestra Comparativa:",
+      sensoryWheelTitle: "RUEDA SENSORIAL DEL ORIGEN (SCA)",
+      wheelAroma: "AROMA & FRAGANCIA",
+      wheelAcidity: "ACIDEZ",
+      wheelBody: "CUERPO & TEXTURA",
+      wheelSweetness: "DULZURA",
+      wheelFinish: "RETROGUSTO & FINAL",
+      otherOriginsDesc: "Cada nación custodia una historia irrepetible. Selecciona el siguiente destino en tu pasaporte cafetero.",
+      exploreCountryBtn: "Explorar País",
+      viewStoreLanding: "Ver Tienda & Landing",
+      clickPinHint: "Haz clic en cualquier punto para fijar la información",
+      selectZone: "Selecciona una zona",
+      keyPoint: "Punto Clave",
+      foundedIn: "Fundada en",
+      historicalTradition: "Tradición Histórica",
+      varietiesLabel: "Variedades:",
+      operatorLabel: "Operador:",
+      highlightsLabel: "Puntos Destacados:",
+      levelLabel: "Nivel:",
+      altitudeLabel: "ALTITUD:",
+      characterLabel: "CARÁCTER:",
+      harvestLabel: "COSECHA:"
+    }
+,
+    countries: {
+      colombia: {
+        name: "Colombia",
+        kicker: "La Cuna de la Suavidad Andina",
+        subtitle: "Descubre Colombia, una taza a la vez.",
+        desc: "Origen Productor · Suavidad Andina"
+      },
+      costaRica: {
+        name: "Costa Rica",
+        kicker: "Pura Vida entre Bosques Nubosos",
+        subtitle: "Sinfonía de microclimas y biodiversidad pura.",
+        desc: "Origen Productor · Bosque Nuboso"
+      },
+      panama: {
+        name: "Panamá",
+        kicker: "El Olimpo del Geisha en Tierras Altas",
+        subtitle: "El café más codiciado y floral del planeta.",
+        desc: "Origen Productor · Cuna del Geisha"
+      },
+      brasil: {
+        name: "Brasil",
+        kicker: "El Gigante del Café y la Dulzura Natural",
+        subtitle: "Inmensidad, tradición y chocolates sedosos.",
+        desc: "Origen Productor · Minas Gerais"
+      },
+      turquia: {
+        name: "Turquía",
+        kicker: "Cinco Siglos de Hospitalidad Otomana",
+        subtitle: "Un ritual ancestral en cobre, arena y poesía.",
+        desc: "Patrimonio Cultural · Ritual en Cezve"
+      }
     }
   },
   en: {
@@ -481,6 +585,7 @@ export const translations = {
       countriesGallery: "Country Gallery",
       worldExplorerAll: "World Explorer",
       countriesTitle: "Countries & Origins",
+      targetMarket: "Target Market:",
       origin: "Origin",
       narrative: "From Origin to Home",
       discovery: "Discovery",
@@ -497,7 +602,13 @@ export const translations = {
       visualTheme: "Visual Theme: Light · Dark · System",
       themeLight: "Light",
       themeDark: "Dark",
-      themeSystem: "System"
+      themeSystem: "System",
+      seeWorldMap: "View World Map",
+      worldSubtitle: "Discover the world, one cup at a time",
+      colombianCoffee: "Colombian Coffee",
+      coffeeWorld: "World of Coffee",
+      availableCountries: "Available Coffee Countries",
+      destinationsCount: "{{count}} Destinations"
     },
     hero: {
       title: "Discover Colombia, one cup at a time.",
@@ -851,7 +962,42 @@ export const translations = {
       openColombiaExperience: "Explore Colombia",
       openCountryPage: "Discover this country",
       pillarsKicker: "Discovery Architecture",
-      fourPillarsTitle: "How the World of Coffee is Experienced"
+      fourPillarsTitle: "How the World of Coffee is Experienced",
+      discoverPhilosophy: "Philosophy & Origins",
+      scrollHint: "SCROLL TO DISCOVER",
+      philosophyKicker: "CATAVIA PHILOSOPHY",
+      filterAll: "All (5)",
+      filterSouthAmerica: "South America",
+      filterCentralAmerica: "Central America",
+      filterEuropeEast: "Europe & East",
+      producerOrigin: "PRODUCER ORIGIN",
+      culturalHeritage: "CULTURAL HERITAGE",
+      regionsMeta: "{{count}} Regions",
+      brandsMeta: "{{count}} Brands",
+      toursMeta: "{{count}} Coffee Tours",
+      workshopsMeta: "{{count}} Workshops",
+      discoverCountry: "Discover {{country}}",
+      fourPillarsSubtitle: "In each country of the CATAVIA collection, immerse yourself in four dimensions curated with rigor and passion:",
+      pillar1Title: "1. Maps & Regions",
+      pillar1Desc: "Authentic geographical silhouettes of each country with interactive markers for coffee regions, soil profiles, and elevations.",
+      pillar1Badge: "VERIFIED CARTOGRAPHY",
+      pillar2Title: "2. Brands & Producers",
+      pillar2Desc: "Authentic growers like Café Monteverde in Costa Rica, Geisha pioneers in Boquete, or legendary Mehmet Efendi in Turkey.",
+      pillar2Badge: "100% REAL TRACEABILITY",
+      pillar3Title: "3. Coffee Tours",
+      pillar3Desc: "Immersive journeys through sustainable estates, historic wet mills, and heritage cafés with official reservation links.",
+      pillar3Badge: "LOCAL OPERATORS",
+      pillar4Title: "4. Barista & Cupping",
+      pillar4Desc: "Brewing workshops (Chorreador, Cezve, V60) and comparative tasting sessions following SCA Sensory Wheel standards.",
+      pillar4Badge: "SENSORY EXPERIENCES",
+      colombiaBannerKicker: "OFFICIAL ORIGIN STORE · CATAVIA COLOMBIA",
+      colombiaBannerTitle: "Would you like to savor authentic Colombian coffee at home?",
+      colombiaBannerDesc: "Our Colombian specialty coffee store is active with hand-selected microlots, roasted on demand with express delivery to your door across the US and Canada.",
+      colombiaBannerF1: "✓ Direct air dispatch (3-5 days)",
+      colombiaBannerF2: "✓ Interactive sensory quiz",
+      colombiaBannerF3: "✓ Geisha, Castillo & Caturra varietals",
+      colombiaBannerBtn: "Discover Colombia on CATAVIA",
+      continueAtlasBtn: "Continue Exploring the Atlas"
     },
     country: {
       backToWorld: "World Explorer",
@@ -897,7 +1043,69 @@ export const translations = {
       exploreOtherOrigins: "Explore Other Coffee Origins",
       navMap: "Map & Terroir",
       navBrands: "Coffees & Brands",
-      navTours: "Tours & Tastings"
+      navTours: "Tours & Tastings",
+      scrollHint: "SCROLL DOWN TO MAP",
+      zonesInMap: "{{count}} Zones on Map",
+      viewCartography: "View sensory cartography",
+      localAtmosphere: "LOCAL ATMOSPHERE",
+      curatedAtlasQuote: "Authentic, direct exploration of global coffee culture without intermediaries.",
+      verifiedWorkshops: "Verified Regional Workshops",
+      curatedGuide: "Curated Guide",
+      sampleLots: "Comparative Sample Lots:",
+      sensoryWheelTitle: "ORIGIN SENSORY WHEEL (SCA)",
+      wheelAroma: "AROMA & FRAGRANCE",
+      wheelAcidity: "ACIDITY",
+      wheelBody: "BODY & TEXTURE",
+      wheelSweetness: "SWEETNESS",
+      wheelFinish: "AFTERTASTE & FINISH",
+      otherOriginsDesc: "Every nation guards an irreplaceable heritage. Choose your next destination in your coffee passport.",
+      exploreCountryBtn: "Explore Country",
+      viewStoreLanding: "View Store & Hub",
+      clickPinHint: "Click any point to view information",
+      selectZone: "Select a zone",
+      keyPoint: "Key Point",
+      foundedIn: "Founded in",
+      historicalTradition: "Historic Tradition",
+      varietiesLabel: "Varietals:",
+      operatorLabel: "Operator:",
+      highlightsLabel: "Highlights:",
+      levelLabel: "Level:",
+      altitudeLabel: "ALTITUDE:",
+      characterLabel: "CHARACTER:",
+      harvestLabel: "HARVEST:"
+    }
+,
+    countries: {
+      colombia: {
+        name: "Colombia",
+        kicker: "The Cradle of Andean Smoothness",
+        subtitle: "Discover Colombia, one cup at a time.",
+        desc: "Producer Origin · Andean Smoothness"
+      },
+      costaRica: {
+        name: "Costa Rica",
+        kicker: "Pura Vida in Cloud Forests",
+        subtitle: "Symphony of microclimates and pure biodiversity.",
+        desc: "Producer Origin · Cloud Forest"
+      },
+      panama: {
+        name: "Panama",
+        kicker: "The Olympus of Geisha in the Highlands",
+        subtitle: "The most coveted floral coffee on earth.",
+        desc: "Producer Origin · Cradle of Geisha"
+      },
+      brasil: {
+        name: "Brazil",
+        kicker: "The Coffee Giant & Natural Sweetness",
+        subtitle: "Vastness, tradition, and silky chocolates.",
+        desc: "Producer Origin · Minas Gerais"
+      },
+      turquia: {
+        name: "Turkey",
+        kicker: "Five Centuries of Ottoman Hospitality",
+        subtitle: "An ancestral ritual in copper, sand, and poetry.",
+        desc: "Cultural Heritage · Cezve Ritual"
+      }
     }
   },
   fr: {
@@ -927,7 +1135,11 @@ export const translations = {
       visualTheme: "Thème Visuel : Clair · Sombre · Système",
       themeLight: "Clair",
       themeDark: "Sombre",
-      themeSystem: "Système"
+      themeSystem: "Système",
+      seeWorldMap: "Voir la carte du monde",
+      worldSubtitle: "Découvrez le monde, une tasse à la fois",
+      colombianCoffee: "Café Colombien",
+      coffeeWorld: "Monde du Café"
     },
     hero: {
       title: "Découvrez la Colombie, une tasse à la fois.",
@@ -1282,7 +1494,42 @@ export const translations = {
       openColombiaExperience: "Accéder à la Colombie",
       openCountryPage: "Découvrir ce pays",
       pillarsKicker: "Architecture de découverte",
-      fourPillarsTitle: "Comment vivre le monde du café"
+      fourPillarsTitle: "Comment vivre le monde du café",
+      discoverPhilosophy: "Philosophie & Origines",
+      scrollHint: "DÉFILEZ POUR DÉCOUVRIR",
+      philosophyKicker: "PHILOSOPHIE CATAVIA",
+      filterAll: "Tous (5)",
+      filterSouthAmerica: "Amérique du Sud",
+      filterCentralAmerica: "Amérique centrale",
+      filterEuropeEast: "Europe & Orient",
+      producerOrigin: "ORIGINE PRODUCTRICE",
+      culturalHeritage: "PATRIMOINE CULTUREL",
+      regionsMeta: "{{count}} Régions",
+      brandsMeta: "{{count}} Marques",
+      toursMeta: "{{count}} Tours Café",
+      workshopsMeta: "{{count}} Ateliers",
+      discoverCountry: "Découvrir {{country}}",
+      fourPillarsSubtitle: "Dans chaque pays de la collection CATAVIA, plongez dans quatre dimensions créées avec rigueur et passion :",
+      pillar1Title: "1. Cartes & Régions",
+      pillar1Desc: "Silhouettes géographiques authentiques de chaque pays avec marqueurs interactifs pour les zones de production, sols et altitudes.",
+      pillar1Badge: "CARTOGRAPHIE VÉRIFIÉE",
+      pillar2Title: "2. Marques & Producteurs",
+      pillar2Desc: "Des producteurs authentiques comme Café Monteverde au Costa Rica, les pionniers du Geisha à Boquete ou l'historique Mehmet Efendi en Turquie.",
+      pillar2Badge: "TRAÇABILITÉ 100% RÉELLE",
+      pillar3Title: "3. Tours de Café",
+      pillar3Desc: "Visites immersives dans des plantations durables, moulins historiques et cafés emblématiques avec liens officiels.",
+      pillar3Badge: "OPÉRATEURS LOCAUX",
+      pillar4Title: "4. Barista & Dégustation",
+      pillar4Desc: "Ateliers d'extraction (Chorreador, Cezve, V60) et dégustations comparatives selon les normes de la Roue des Saveurs SCA.",
+      pillar4Badge: "EXPÉRIENCES SENSORIELLES",
+      colombiaBannerKicker: "BOUTIQUE OFFICIELLE D'ORIGINE · CATAVIA COLOMBIE",
+      colombiaBannerTitle: "Souhaitez-vous déguster un authentique café colombien chez vous ?",
+      colombiaBannerDesc: "Notre sélection de café de spécialité de Colombie propose des microlots sélectionnés à la main, torréfiés sur commande et livrés chez vous aux États-Unis et au Canada.",
+      colombiaBannerF1: "✓ Expédition aérienne directe (3-5 jours)",
+      colombiaBannerF2: "✓ Sélecteur sensoriel interactif",
+      colombiaBannerF3: "✓ Variétés Geisha, Castillo et Caturra",
+      colombiaBannerBtn: "Découvrez la Colombie sur CATAVIA",
+      continueAtlasBtn: "Continuer à explorer l'Atlas"
     },
     country: {
       backToWorld: "Explorateur mondial",
@@ -1328,7 +1575,68 @@ export const translations = {
       exploreOtherOrigins: "Explorez d'autres pays caféiers",
       navMap: "Carte & Terroir",
       navBrands: "Cafés & Marques",
-      navTours: "Visites & Dégustations"
+      navTours: "Visites & Dégustations",
+      scrollHint: "DÉFILEZ VERS LA CARTE",
+      zonesInMap: "{{count}} Zones cartographiées",
+      viewCartography: "Voir la cartographie sensorielle",
+      localAtmosphere: "ATMOSPHÈRE LOCALE",
+      curatedAtlasQuote: "Exploration authentique sans intermédiaires de la culture caféière mondiale.",
+      verifiedWorkshops: "Ateliers vérifiés dans la région",
+      curatedGuide: "Guide Curaté",
+      sampleLots: "Lots d'échantillons comparatifs :",
+      sensoryWheelTitle: "ROUE SENSORIELLE D'ORIGINE (SCA)",
+      wheelAroma: "ARÔME & FRAGRANCE",
+      wheelAcidity: "ACIDITÉ",
+      wheelBody: "CORPS & TEXTURE",
+      wheelSweetness: "DOUCEUR",
+      wheelFinish: "ARRIÈRE-GOÛT & FINALE",
+      otherOriginsDesc: "Chaque nation préserve une histoire unique. Choisissez votre prochaine destination dans votre passeport caféier.",
+      exploreCountryBtn: "Explorer le pays",
+      viewStoreLanding: "Voir boutique & espace",
+      clickPinHint: "Cliquez sur un point pour afficher les informations",
+      selectZone: "Sélectionnez une zone",
+      keyPoint: "Point clé",
+      foundedIn: "Fondée en",
+      historicalTradition: "Tradition historique",
+      varietiesLabel: "Variétés :",
+      operatorLabel: "Opérateur :",
+      highlightsLabel: "Points forts :",
+      levelLabel: "Niveau :",
+      altitudeLabel: "ALTITUDE :",
+      characterLabel: "CARACTÈRE :",
+      harvestLabel: "RÉCOLTE :"
+    },
+    countries: {
+      colombia: {
+        name: "Colombie",
+        kicker: "Le Berceau de la Douceur Andine",
+        subtitle: "Découvrez la Colombie, une tasse à la fois.",
+        desc: "Origine Productrice · Douceur Andine"
+      },
+      costaRica: {
+        name: "Costa Rica",
+        kicker: "Pura Vida dans les Forêts de Nuages",
+        subtitle: "Symphonie de microclimats et biodiversité pure.",
+        desc: "Origine Productrice · Forêt de Nuages"
+      },
+      panama: {
+        name: "Panama",
+        kicker: "L'Olympe du Geisha dans les Hautes Terres",
+        subtitle: "Le café le plus convoité et floral de la planète.",
+        desc: "Origine Productrice · Berceau du Geisha"
+      },
+      brasil: {
+        name: "Brésil",
+        kicker: "Le Géant du Café et la Douceur Naturelle",
+        subtitle: "Immensité, tradition et chocolats soyeux.",
+        desc: "Origine Productrice · Minas Gerais"
+      },
+      turquia: {
+        name: "Turquie",
+        kicker: "Cinq Siècles d'Hospitalité Ottomane",
+        subtitle: "Un rituel ancestral de cuivre, de sable et de poésie.",
+        desc: "Patrimoine Culturel · Rituel en Cezve"
+      }
     }
   }
 };
